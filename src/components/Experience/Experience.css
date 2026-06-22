@@ -1,0 +1,187 @@
+.experience {
+  background: var(--bg-secondary);
+  position: relative;
+}
+
+/* Timeline */
+.timeline {
+  position: relative;
+  padding-left: 60px;
+  max-width: 700px;
+}
+
+.timeline-line {
+  position: absolute;
+  left: 20px;
+  top: 0;
+  width: 4px;
+  background: linear-gradient(
+    to bottom,
+    var(--color-orange),
+    var(--color-pink),
+    var(--color-purple)
+  );
+  border-radius: 2px;
+}
+
+.timeline-node {
+  position: absolute;
+  left: 5px;
+  top: 30px;
+  width: 34px;
+  height: 34px;
+  background: var(--color-orange);
+  border: 3px solid var(--border-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1A1A2E;
+  z-index: 2;
+  box-shadow: var(--shadow-hard-sm);
+}
+
+/* Experience Card */
+.experience-card {
+  position: relative;
+  overflow: hidden;
+  margin-left: 20px;
+}
+
+.exp-card-shapes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.exp-shape-circle {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: var(--color-orange);
+  opacity: 0.06;
+  top: -30px;
+  right: -30px;
+}
+
+.exp-shape-dots {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background-image: radial-gradient(circle, var(--color-pink) 1.5px, transparent 1.5px);
+  background-size: 10px 10px;
+  opacity: 0.08;
+  bottom: 10px;
+  right: 10px;
+}
+
+.exp-company-badge {
+  display: inline-block;
+  padding: 8px 20px;
+  background: var(--color-orange);
+  color: #1A1A2E;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border: 3px solid var(--border-color);
+  border-radius: 30px;
+  box-shadow: var(--shadow-hard-sm);
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.exp-role {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.5rem;
+  margin-bottom: 14px;
+  color: var(--text-primary);
+  position: relative;
+  z-index: 1;
+}
+
+.exp-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.exp-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.exp-duration-badge {
+  padding: 4px 14px;
+  background: var(--color-purple);
+  color: #fff;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  border: 2px solid var(--border-color);
+}
+
+.exp-responsibilities {
+  position: relative;
+  z-index: 1;
+}
+
+.exp-resp-title {
+  font-family: var(--font-comic);
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 14px;
+  color: var(--text-primary);
+}
+
+.exp-resp-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.exp-resp-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.exp-bullet {
+  flex-shrink: 0;
+  width: 10px;
+  height: 10px;
+  background: var(--color-cyan);
+  border: 2px solid var(--border-color);
+  border-radius: 50%;
+  margin-top: 6px;
+}
+
+@media (max-width: 768px) {
+  .timeline {
+    padding-left: 0;
+  }
+
+  .timeline-line,
+  .timeline-node {
+    display: none;
+  }
+
+  .experience-card {
+    margin-left: 0;
+  }
+}

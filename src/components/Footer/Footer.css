@@ -1,0 +1,128 @@
+.footer {
+  position: relative;
+  overflow: hidden;
+  padding-bottom: 40px;
+}
+
+.footer-divider {
+  width: 100%;
+  height: 24px;
+  background: linear-gradient(135deg, var(--bg-primary) 25%, transparent 25%) -12px 0,
+    linear-gradient(225deg, var(--bg-primary) 25%, transparent 25%) -12px 0,
+    linear-gradient(315deg, var(--bg-primary) 25%, transparent 25%),
+    linear-gradient(45deg, var(--bg-primary) 25%, transparent 25%);
+  background-size: 24px 24px;
+  background-color: var(--color-pink);
+  margin-bottom: 50px;
+}
+
+.footer-container {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+/* Decorative shapes */
+.footer-shapes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.footer-circle-1 {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--color-cyan);
+  opacity: 0.06;
+  top: 0;
+  left: 10%;
+  animation: float 7s ease-in-out infinite;
+}
+
+.footer-circle-2 {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 3px solid var(--color-yellow);
+  opacity: 0.1;
+  bottom: 10px;
+  right: 15%;
+  animation: floatReverse 6s ease-in-out infinite;
+}
+
+.footer-triangle {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-bottom: 35px solid var(--color-orange);
+  opacity: 0.08;
+  top: 20px;
+  right: 30%;
+  animation: wiggle 5s ease-in-out infinite;
+}
+
+/* Quote */
+.footer-quote {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.quote-word {
+  font-family: var(--font-heading);
+  font-weight: 900;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.quote-code {
+  color: var(--color-yellow);
+  text-shadow: 3px 3px 0px var(--border-color);
+}
+
+.quote-create {
+  color: var(--color-pink);
+  text-shadow: 3px 3px 0px var(--border-color);
+}
+
+.quote-innovate {
+  color: var(--color-cyan);
+  text-shadow: 3px 3px 0px var(--border-color);
+}
+
+/* Bottom */
+.footer-bottom {
+  padding-top: 20px;
+  border-top: 2px solid var(--border-color);
+}
+
+.footer-copyright {
+  font-family: var(--font-comic);
+  font-size: 1rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.footer-heart {
+  display: inline-flex;
+  color: var(--color-red);
+}
+
+@media (max-width: 768px) {
+  .footer-quote {
+    gap: 10px;
+  }
+}

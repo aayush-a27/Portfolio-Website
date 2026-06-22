@@ -1,0 +1,126 @@
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: var(--bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  position: relative;
+}
+
+.loading-logo {
+  display: flex;
+  gap: 4px;
+}
+
+.loading-letter {
+  font-family: var(--font-heading);
+  font-size: 5rem;
+  font-weight: 900;
+  color: var(--color-yellow);
+  text-shadow: 4px 4px 0px var(--border-color);
+}
+
+.loading-letter-accent {
+  font-family: var(--font-heading);
+  font-size: 5rem;
+  font-weight: 900;
+  color: var(--color-pink);
+  text-shadow: 4px 4px 0px var(--border-color);
+}
+
+.loading-bar-container {
+  height: 8px;
+  background: var(--bg-card);
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.loading-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-yellow), var(--color-pink), var(--color-cyan));
+  border-radius: 10px;
+}
+
+.loading-text {
+  font-family: var(--font-comic);
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  font-weight: 700;
+}
+
+/* Floating Memphis shapes in loading screen */
+.loading-shape {
+  position: absolute;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.loading-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--color-cyan);
+  border: 3px solid var(--border-color);
+  top: -80px;
+  right: -100px;
+  animation: float 3s infinite;
+}
+
+.loading-triangle {
+  width: 0;
+  height: 0;
+  border-left: 25px solid transparent;
+  border-right: 25px solid transparent;
+  border-bottom: 43px solid var(--color-orange);
+  bottom: -70px;
+  left: -90px;
+  animation: floatReverse 2.5s infinite;
+}
+
+.loading-square {
+  width: 35px;
+  height: 35px;
+  background: var(--color-purple);
+  border: 3px solid var(--border-color);
+  top: -60px;
+  left: -120px;
+  animation: spinSlow 8s linear infinite;
+}
+
+.loading-cross-shape {
+  width: 30px;
+  height: 30px;
+  bottom: -80px;
+  right: -80px;
+  animation: wiggle 2s infinite;
+}
+
+.loading-cross-shape::before,
+.loading-cross-shape::after {
+  content: '';
+  position: absolute;
+  background: var(--color-yellow);
+}
+
+.loading-cross-shape::before {
+  width: 30px;
+  height: 6px;
+  top: 12px;
+}
+
+.loading-cross-shape::after {
+  width: 6px;
+  height: 30px;
+  left: 12px;
+}

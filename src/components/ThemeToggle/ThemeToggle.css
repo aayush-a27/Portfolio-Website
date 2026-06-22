@@ -1,0 +1,17 @@
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: var(--border-thick);
+  background: var(--color-yellow);
+  color: #1A1A2E;
+  box-shadow: var(--shadow-hard-sm);
+  transition: background 0.2s ease;
+}
+
+.theme-toggle:hover {
+  background: var(--color-orange);
+}

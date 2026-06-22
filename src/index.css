@@ -1,0 +1,416 @@
+/* ============================================================
+   DESIGN SYSTEM — Pop Art × Memphis Design
+   ============================================================ */
+
+/* --- CSS Custom Properties (Design Tokens) --- */
+:root {
+  /* Memphis Palette */
+  --color-yellow: #FFD700;
+  --color-cyan: #00E5FF;
+  --color-pink: #FF1493;
+  --color-orange: #FF6B35;
+  --color-purple: #8B5CF6;
+  --color-red: #FF3B3B;
+  --color-blue: #3B82F6;
+  --color-lime: #A3E635;
+  --color-teal: #14B8A6;
+  --color-magenta: #E91E90;
+
+  /* Typography */
+  --font-heading: 'Outfit', sans-serif;
+  --font-comic: 'Comic Neue', cursive;
+  --font-body: 'Outfit', sans-serif;
+
+  /* Borders & Shadows */
+  --border-thick: 3px solid #000;
+  --border-thicker: 4px solid #000;
+  --shadow-hard: 6px 6px 0px #000;
+  --shadow-hard-sm: 4px 4px 0px #000;
+  --shadow-hard-lg: 8px 8px 0px #000;
+  --shadow-hard-hover: 8px 8px 0px #000;
+
+  /* Spacing */
+  --section-padding: 100px 0;
+  --container-max: 1200px;
+  --container-padding: 0 24px;
+
+  /* Border radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 30px;
+
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-med: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+/* --- Dark Theme (Default) --- */
+[data-theme="dark"] {
+  --bg-primary: #1A1A2E;
+  --bg-secondary: #16213E;
+  --bg-card: #1E2A4A;
+  --bg-card-alt: #232946;
+  --text-primary: #F8F8F2;
+  --text-secondary: #C4C4D4;
+  --text-muted: #8888A0;
+  --border-color: #F8F8F2;
+  --shadow-color: rgba(0,0,0,0.8);
+  --nav-bg: rgba(26, 26, 46, 0.92);
+  --input-bg: #232946;
+  --halftone-opacity: 0.06;
+  --border-thick: 3px solid #F8F8F2;
+  --border-thicker: 4px solid #F8F8F2;
+  --shadow-hard: 6px 6px 0px rgba(248,248,242,0.25);
+  --shadow-hard-sm: 4px 4px 0px rgba(248,248,242,0.2);
+  --shadow-hard-lg: 8px 8px 0px rgba(248,248,242,0.25);
+  --shadow-hard-hover: 8px 8px 0px rgba(248,248,242,0.35);
+}
+
+/* --- Light Theme --- */
+[data-theme="light"] {
+  --bg-primary: #FFF8E7;
+  --bg-secondary: #FFF0D4;
+  --bg-card: #FFFFFF;
+  --bg-card-alt: #FFF5E6;
+  --text-primary: #1A1A2E;
+  --text-secondary: #3A3A5C;
+  --text-muted: #6A6A8A;
+  --border-color: #1A1A2E;
+  --shadow-color: rgba(0,0,0,0.9);
+  --nav-bg: rgba(255, 248, 231, 0.92);
+  --input-bg: #FFFFFF;
+  --halftone-opacity: 0.08;
+  --border-thick: 3px solid #1A1A2E;
+  --border-thicker: 4px solid #1A1A2E;
+  --shadow-hard: 6px 6px 0px #1A1A2E;
+  --shadow-hard-sm: 4px 4px 0px #1A1A2E;
+  --shadow-hard-lg: 8px 8px 0px #1A1A2E;
+  --shadow-hard-hover: 8px 8px 0px #1A1A2E;
+}
+
+/* --- Reset & Base --- */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  cursor: none;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+  cursor: none;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  cursor: none;
+}
+
+button {
+  cursor: none;
+  font-family: var(--font-body);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+ul {
+  list-style: none;
+}
+
+/* --- Container --- */
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: var(--container-padding);
+}
+
+/* --- Section Base --- */
+.section {
+  padding: var(--section-padding);
+  position: relative;
+  overflow: hidden;
+}
+
+.section-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 60px;
+  position: relative;
+  display: inline-block;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  left: 0;
+  width: 80px;
+  height: 6px;
+  background: var(--color-pink);
+  border-radius: 3px;
+}
+
+/* --- Memphis Button --- */
+.memphis-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: var(--border-thick);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-hard);
+  transition: all var(--transition-fast);
+  position: relative;
+  overflow: hidden;
+}
+
+.memphis-btn:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: var(--shadow-hard-lg);
+}
+
+.memphis-btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: 2px 2px 0px var(--border-color);
+}
+
+.memphis-btn-primary {
+  background: var(--color-yellow);
+  color: #1A1A2E;
+}
+
+.memphis-btn-secondary {
+  background: var(--color-cyan);
+  color: #1A1A2E;
+}
+
+.memphis-btn-tertiary {
+  background: var(--color-pink);
+  color: #fff;
+}
+
+/* --- Memphis Card --- */
+.memphis-card {
+  background: var(--bg-card);
+  border: var(--border-thick);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-hard);
+  padding: 28px;
+  position: relative;
+  transition: all var(--transition-fast);
+}
+
+.memphis-card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: var(--shadow-hard-lg);
+}
+
+/* --- Speech Bubble --- */
+.speech-bubble {
+  position: relative;
+  background: var(--color-yellow);
+  color: #1A1A2E;
+  border: var(--border-thick);
+  border-radius: var(--radius-lg);
+  padding: 16px 24px;
+  font-family: var(--font-comic);
+  font-weight: 700;
+  font-size: 1.1rem;
+  box-shadow: var(--shadow-hard-sm);
+  display: inline-block;
+}
+
+.speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 30px;
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 20px solid var(--color-yellow);
+  filter: drop-shadow(3px 3px 0px var(--border-color));
+}
+
+/* --- Comic Sticker --- */
+.comic-sticker {
+  display: inline-block;
+  padding: 8px 18px;
+  font-family: var(--font-comic);
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: 3px solid var(--border-color);
+  border-radius: 30px;
+  box-shadow: var(--shadow-hard-sm);
+  transform: rotate(-3deg);
+  transition: all var(--transition-fast);
+}
+
+.comic-sticker:hover {
+  transform: rotate(3deg) scale(1.08);
+}
+
+/* --- Halftone Overlay --- */
+.halftone-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: var(--halftone-opacity);
+  background-image: radial-gradient(circle, var(--text-primary) 1px, transparent 1px);
+  background-size: 8px 8px;
+  z-index: 0;
+}
+
+/* --- Zigzag Divider --- */
+.zigzag-divider {
+  width: 100%;
+  height: 20px;
+  background: linear-gradient(135deg, var(--bg-primary) 25%, transparent 25%) -10px 0,
+    linear-gradient(225deg, var(--bg-primary) 25%, transparent 25%) -10px 0,
+    linear-gradient(315deg, var(--bg-primary) 25%, transparent 25%),
+    linear-gradient(45deg, var(--bg-primary) 25%, transparent 25%);
+  background-size: 20px 20px;
+  background-color: var(--color-pink);
+}
+
+/* --- Geometric Decorations --- */
+.geo-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: var(--border-thick);
+  position: absolute;
+}
+
+.geo-triangle {
+  width: 0;
+  height: 0;
+  border-left: 30px solid transparent;
+  border-right: 30px solid transparent;
+  border-bottom: 52px solid var(--color-cyan);
+  position: absolute;
+}
+
+.geo-square {
+  width: 40px;
+  height: 40px;
+  border: var(--border-thick);
+  position: absolute;
+}
+
+.geo-cross {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+}
+
+.geo-cross::before,
+.geo-cross::after {
+  content: '';
+  position: absolute;
+  background: var(--color-orange);
+}
+
+.geo-cross::before {
+  width: 30px;
+  height: 6px;
+  top: 12px;
+  left: 0;
+}
+
+.geo-cross::after {
+  width: 6px;
+  height: 30px;
+  top: 0;
+  left: 12px;
+}
+
+/* --- Squiggle SVG pattern (CSS approximation) --- */
+.squiggle-line {
+  position: absolute;
+  width: 120px;
+  height: 20px;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0px,
+    transparent 5px,
+    var(--color-pink) 5px,
+    var(--color-pink) 7px
+  );
+  clip-path: polygon(
+    0% 50%, 5% 0%, 10% 50%, 15% 100%, 20% 50%, 25% 0%, 30% 50%,
+    35% 100%, 40% 50%, 45% 0%, 50% 50%, 55% 100%, 60% 50%, 65% 0%,
+    70% 50%, 75% 100%, 80% 50%, 85% 0%, 90% 50%, 95% 100%, 100% 50%
+  );
+}
+
+/* --- Scrollbar --- */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-purple);
+  border: 2px solid var(--bg-secondary);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-pink);
+}
+
+/* --- Selection --- */
+::selection {
+  background: var(--color-pink);
+  color: #fff;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  html, body, a, button {
+    cursor: auto;
+  }
+
+  .section {
+    padding: 60px 0;
+  }
+
+  .section-title {
+    margin-bottom: 40px;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+}

@@ -1,0 +1,125 @@
+.skills {
+  position: relative;
+}
+
+.skills-bg-shapes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.skills-dots-pattern {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  top: 10%;
+  right: 5%;
+  background-image: radial-gradient(circle, var(--color-purple) 2px, transparent 2px);
+  background-size: 16px 16px;
+  opacity: 0.08;
+}
+
+.skills-zigzag {
+  position: absolute;
+  width: 180px;
+  height: 20px;
+  bottom: 15%;
+  left: 5%;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--color-yellow) 0px,
+    var(--color-yellow) 2px,
+    transparent 2px,
+    transparent 12px
+  );
+  clip-path: polygon(
+    0% 50%, 7% 0%, 14% 50%, 21% 100%, 28% 50%, 35% 0%,
+    42% 50%, 49% 100%, 56% 50%, 63% 0%, 70% 50%,
+    77% 100%, 84% 50%, 91% 0%, 100% 50%
+  );
+  opacity: 0.15;
+  animation: float 8s ease-in-out infinite;
+}
+
+.skills-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  position: relative;
+  z-index: 1;
+}
+
+.skill-category-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.skill-category-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.skill-category-title {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--text-primary);
+}
+
+.skill-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.skill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  background: var(--bg-card);
+  border: var(--border-thick);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-hard-sm);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  transition: all var(--transition-fast);
+}
+
+.skill-badge:hover {
+  box-shadow: var(--shadow-hard);
+}
+
+.skill-badge-icon {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.skill-badge-name {
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .skill-badges {
+    gap: 10px;
+  }
+
+  .skill-badge {
+    padding: 10px 16px;
+    font-size: 0.85rem;
+  }
+
+  .skill-badge-icon {
+    font-size: 1.1rem;
+  }
+}

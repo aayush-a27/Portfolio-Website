@@ -1,0 +1,140 @@
+.about {
+  background: var(--bg-secondary);
+  position: relative;
+}
+
+.about-bio {
+  margin-bottom: 50px;
+  max-width: 700px;
+}
+
+.about-bio-bubble {
+  background: var(--bg-card);
+  border: var(--border-thick);
+  border-radius: var(--radius-lg);
+  padding: 28px 32px;
+  box-shadow: var(--shadow-hard);
+  position: relative;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--text-secondary);
+}
+
+.about-bio-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -18px;
+  left: 40px;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 18px solid var(--bg-card);
+  filter: drop-shadow(2px 3px 0px var(--border-color));
+}
+
+.about-bio-bubble strong {
+  color: var(--color-cyan);
+}
+
+/* About Grid */
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  margin-bottom: 50px;
+}
+
+.about-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.about-card-accent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 100%;
+  border-radius: 4px 0 0 4px;
+}
+
+.about-card-icon {
+  font-size: 2.4rem;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.about-card-title {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: var(--text-primary);
+}
+
+.about-card-desc {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Fact Stickers */
+.fact-stickers {
+  margin-top: 10px;
+}
+
+.fact-stickers-title {
+  font-family: var(--font-comic);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: var(--text-primary);
+}
+
+.fact-stickers-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.fact-sticker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 30px;
+  transform: rotate(-2deg);
+}
+
+.fact-sticker:nth-child(2) {
+  transform: rotate(2deg);
+}
+
+.fact-sticker:nth-child(3) {
+  transform: rotate(-1deg);
+}
+
+.fact-sticker:nth-child(4) {
+  transform: rotate(3deg);
+}
+
+.fact-emoji {
+  font-size: 1.3rem;
+}
+
+@media (max-width: 768px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .fact-stickers-grid {
+    flex-direction: column;
+  }
+
+  .fact-sticker {
+    width: fit-content;
+  }
+}

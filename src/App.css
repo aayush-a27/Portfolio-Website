@@ -1,0 +1,9 @@
+/* App Layout */
+.app-enter {
+  animation: fadeIn 0.6s ease forwards;
+}
+
+main {
+  position: relative;
+  z-index: 1;
+}
