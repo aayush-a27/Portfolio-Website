@@ -21,7 +21,7 @@ const Skills = () => {
         setNear(true);
         io.disconnect();
       }
-    }, { rootMargin: '150% 0px' });
+    }, { rootMargin: '400% 0px' });
     io.observe(trackRef.current);
     return () => io.disconnect();
   }, []);

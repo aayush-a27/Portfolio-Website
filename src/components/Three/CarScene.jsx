@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { gsap, ScrollTrigger } from '../../lib/motion';
+import { gsap } from '../../lib/motion';
 import { THREE, applyPreset, createStage, loadModel, webglAvailable } from '../../lib/three/stage';
 import { useTheme } from '../../context/contexts';
 import './CarScene.css';
@@ -95,10 +95,10 @@ const CarScene = ({ url, trackRef, revealRef, onReady }) => {
     const track = trackRef.current;
     const small = window.matchMedia('(max-width: 767px)').matches;
 
-    const stage = createStage(canvas, { dpr: small ? 1.25 : 1.75, antialias: !small });
+    const stage = createStage(canvas, { dpr: small ? 1.25 : 1.5, antialias: !small });
     const { renderer, scene, lights } = stage;
     renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.shadowMap.type = THREE.PCFShadowMap;
     applyPreset(gsap, stage, themeRef.current, 0);
 
     const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 200);
@@ -114,10 +114,10 @@ const CarScene = ({ url, trackRef, revealRef, onReady }) => {
     scene.add(ground);
 
     lights.key.castShadow = true;
-    lights.key.shadow.mapSize.set(small ? 1024 : 2048, small ? 1024 : 2048);
+    lights.key.shadow.mapSize.set(small ? 512 : 1024, small ? 512 : 1024);
     Object.assign(lights.key.shadow.camera, { left: -5, right: 5, top: 5, bottom: -5, near: 0.5, far: 30 });
     lights.key.shadow.bias = -0.0005;
-    lights.key.shadow.radius = 6;
+    lights.key.shadow.radius = 4;
     scene.add(lights.key.target);
 
     const car = new THREE.Group();
@@ -129,7 +129,7 @@ const CarScene = ({ url, trackRef, revealRef, onReady }) => {
 
     // ---- precomputed effects along the path ----
     const fx = THEME_FX[themeRef.current];
-    const SMOKE = small ? 60 : 110;
+    const SMOKE = small ? 45 : 80;
     const smokeTex = smokeTexture();
     const puffs = [];
     const rearOffset = new THREE.Vector3(0, 0, -1.45); // rear axle, car-local (model faces +Z)
@@ -331,10 +331,27 @@ const CarScene = ({ url, trackRef, revealRef, onReady }) => {
           wheels.push({ pivot, front: pivot.position.z > 0 });
         });
 
+        // Warm up the GPU before the car is shown: compile every shader and
+        // upload every texture now, so the first smoke puff or skid mark
+        // mid-scroll doesn't stall a frame while the driver catches up.
         car.visible = true;
-        onReady?.();
-        ScrollTrigger.refresh();
-        schedule();
+        puffs.forEach((p) => { p.sprite.visible = true; });
+        return renderer
+          .compileAsync(scene, camera)
+          .catch(() => {})
+          .then(() => {
+            if (disposed) return;
+            puffs.forEach((p) => { p.sprite.visible = false; });
+            renderer.initTexture(smokeTex);
+            model.traverse((o) => {
+              if (!o.isMesh) return;
+              (Array.isArray(o.material) ? o.material : [o.material]).forEach((m) => {
+                Object.values(m).forEach((v) => v?.isTexture && renderer.initTexture(v));
+              });
+            });
+            onReady?.();
+            render();
+          });
       })
       .catch((err) => {
         console.warn('Car model failed to load:', err);
