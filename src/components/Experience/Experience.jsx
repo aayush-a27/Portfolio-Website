@@ -1,113 +1,79 @@
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
-import { FiBriefcase, FiCalendar, FiClock } from 'react-icons/fi';
+import { useLayoutEffect, useRef } from 'react';
+import { FiBriefcase, FiCalendar, FiMapPin } from 'react-icons/fi';
+import SectionHeading from '../SectionHeading/SectionHeading';
+import { experiences, experienceLabels, experienceTitle } from '../../data/portfolio';
+import { gsap, prefersReducedMotion } from '../../lib/motion';
 import './Experience.css';
 
-const experience = {
-  company: 'AventIQ',
-  role: 'Full Stack Developer Intern',
-  duration: 'December 8, 2025 - March 8, 2026',
-  durationLength: '4 Months',
-  responsibilities: [
-    'Developed and maintained full-stack web applications.',
-    'Collaborated with team members on frontend and backend features.',
-    'Built scalable APIs and responsive user interfaces.',
-    'Participated in debugging, testing, and code reviews.',
-  ],
-};
-
 const Experience = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const sectionRef = useRef(null);
+
+  // Each company name fills from outline to solid, and the rail draws, in step with scroll.
+  useLayoutEffect(() => {
+    if (prefersReducedMotion()) return;
+    const ctx = gsap.context(() => {
+      gsap.utils.toArray('.exp-entry', sectionRef.current).forEach((entry) => {
+        gsap.fromTo(entry.querySelector('.exp-company-fill'), { clipPath: 'inset(0% 100% 0% 0%)' }, {
+          clipPath: 'inset(0% 0% 0% 0%)',
+          ease: 'none',
+          scrollTrigger: { trigger: entry, start: 'top 85%', end: 'top 30%', scrub: 0.6 },
+        });
+      });
+      gsap.fromTo('.exp-rail-fill', { scaleY: 0 }, {
+        scaleY: 1,
+        ease: 'none',
+        scrollTrigger: { trigger: '.exp-timeline', start: 'top 70%', end: 'bottom 60%', scrub: 0.6 },
+      });
+    }, sectionRef);
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <section id="experience" className="experience section">
-      <div className="halftone-overlay" />
-      <div className="container" ref={ref}>
-        <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          animate={isInView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.5 }}
-        >
-          <h2 className="section-title">
-            My <span style={{ color: 'var(--color-orange)' }}>Experience</span>
-          </h2>
-        </motion.div>
+    <section ref={sectionRef} id="experience" className="section experience" aria-labelledby="experience-title">
+      <div className="container">
+        <SectionHeading index="03" label="Experience" title={experienceTitle} id="experience-title" />
 
-        <div className="timeline">
-          {/* Timeline line */}
-          <motion.div
-            className="timeline-line"
-            initial={{ height: 0 }}
-            animate={isInView ? { height: '100%' } : {}}
-            transition={{ duration: 1, delay: 0.3 }}
-          />
+        <div className="exp-timeline">
+          <div className="exp-rail" aria-hidden="true"><div className="exp-rail-fill" /></div>
 
-          {/* Timeline node */}
-          <motion.div
-            className="timeline-node"
-            initial={{ scale: 0 }}
-            animate={isInView ? { scale: 1 } : {}}
-            transition={{ delay: 0.5, type: 'spring', stiffness: 300 }}
-          >
-            <FiBriefcase size={20} />
-          </motion.div>
+          {experiences.map((job) => (
+            <article key={`${job.company}-${job.role}`} className="exp-entry">
+              <span className="exp-node" aria-hidden="true"><FiBriefcase /></span>
 
-          {/* Experience card */}
-          <motion.div
-            className="experience-card memphis-card"
-            initial={{ opacity: 0, x: 60 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ delay: 0.6, duration: 0.6 }}
-            whileHover={{ scale: 1.02 }}
-          >
-            {/* Card decorative elements */}
-            <div className="exp-card-shapes" aria-hidden="true">
-              <div className="exp-shape-circle" />
-              <div className="exp-shape-dots" />
-            </div>
-
-            {/* Company badge */}
-            <motion.div
-              className="exp-company-badge"
-              initial={{ scale: 0 }}
-              animate={isInView ? { scale: 1 } : {}}
-              transition={{ delay: 0.8, type: 'spring' }}
-            >
-              {experience.company}
-            </motion.div>
-
-            <h3 className="exp-role">{experience.role}</h3>
-
-            <div className="exp-meta">
-              <div className="exp-meta-item">
-                <FiCalendar />
-                <span>{experience.duration}</span>
+              <div className="exp-left">
+                <p className="exp-company">
+                  <span className="sr-only">{job.company}</span>
+                  <span className="exp-company-outline" aria-hidden="true">{job.company}</span>
+                  <span className="exp-company-fill" aria-hidden="true">{job.company}</span>
+                </p>
+                {job.companyDetail && <p className="exp-company-detail">{job.companyDetail}</p>}
+                <h3 className="exp-role">{job.role}</h3>
+                <div className="exp-meta">
+                  <span className="exp-meta-item">
+                    <FiCalendar aria-hidden="true" />
+                    {job.duration}
+                  </span>
+                  <span className="exp-meta-item">
+                    <FiMapPin aria-hidden="true" />
+                    {job.location}
+                  </span>
+                  {job.current && <span className="exp-meta-item exp-current">{experienceLabels.current}</span>}
+                </div>
               </div>
-              <div className="exp-meta-item exp-duration-badge">
-                <FiClock />
-                <span>{experience.durationLength}</span>
-              </div>
-            </div>
 
-            <div className="exp-responsibilities">
-              <h4 className="exp-resp-title">Key Responsibilities</h4>
-              <ul className="exp-resp-list">
-                {experience.responsibilities.map((resp, index) => (
-                  <motion.li
-                    key={index}
-                    className="exp-resp-item"
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={isInView ? { opacity: 1, x: 0 } : {}}
-                    transition={{ delay: 0.9 + index * 0.1 }}
-                  >
-                    <span className="exp-bullet" />
-                    {resp}
-                  </motion.li>
-                ))}
-              </ul>
-            </div>
-          </motion.div>
+              <div className="exp-right">
+                <h4 className="label exp-resp-title">{experienceLabels.responsibilities}</h4>
+                <ol className="exp-list" data-reveal="stagger">
+                  {job.responsibilities.map((resp, index) => (
+                    <li key={index} className="exp-item">
+                      <span className="exp-item-index">{String(index + 1).padStart(2, '0')}</span>
+                      <span className="exp-item-text">{resp}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </section>

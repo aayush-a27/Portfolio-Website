@@ -1,125 +1,214 @@
 .skills {
   position: relative;
+  padding-bottom: var(--section-y);
 }
 
-.skills-bg-shapes {
+/* ---------------- pinned drift stage ---------------- */
+.drift-track {
+  position: relative;
+  height: 320vh;
+}
+
+.drift-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.drift-meta {
   position: absolute;
-  inset: 0;
-  pointer-events: none;
+  top: calc(var(--nav-h) + 3vh);
+  left: max(var(--gutter), calc((100% - var(--container-max)) / 2 + var(--gutter)));
+  z-index: 2;
+}
+
+/* Title sits behind the car; the car's position drives --reveal. */
+.drift-title-wrap {
+  --reveal: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 22%;
+  display: grid;
+  place-items: center;
   z-index: 0;
+  pointer-events: none;
 }
 
-.skills-dots-pattern {
+.drift-title {
+  grid-area: 1 / 1;
+  font-size: clamp(4rem, 17vw, 17rem);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+  white-space: nowrap;
+  font-variation-settings: 'opsz' 96;
+}
+
+.drift-title .serif {
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  color: var(--accent);
+}
+
+/* Only once the car exists does the reveal follow it (no-WebGL: title just shows). */
+.drift-title-wrap.is-driven .drift-title:not(.drift-title-ghost) {
+  clip-path: inset(-10% calc(100% - var(--reveal)) -20% -5%);
+}
+
+.drift-title-ghost {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--line);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.drift-title-ghost .serif {
+  color: transparent;
+}
+
+.drift-title-wrap.is-driven .drift-title-ghost {
+  opacity: 1;
+}
+
+/* faint road: horizon band + dashed centre line, receding toward the bottom */
+.drift-road {
   position: absolute;
-  width: 200px;
-  height: 200px;
-  top: 10%;
-  right: 5%;
-  background-image: radial-gradient(circle, var(--color-purple) 2px, transparent 2px);
-  background-size: 16px 16px;
-  opacity: 0.08;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 42%;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(90deg, var(--line) 0 60px, transparent 60px 120px) center 58% / 100% 2px no-repeat,
+    linear-gradient(180deg, transparent, color-mix(in srgb, var(--text) 4%, transparent));
+  mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
 }
 
-.skills-zigzag {
+.drift-hint {
   position: absolute;
-  width: 180px;
-  height: 20px;
-  bottom: 15%;
-  left: 5%;
-  background: repeating-linear-gradient(
-    90deg,
-    var(--color-yellow) 0px,
-    var(--color-yellow) 2px,
-    transparent 2px,
-    transparent 12px
-  );
-  clip-path: polygon(
-    0% 50%, 7% 0%, 14% 50%, 21% 100%, 28% 50%, 35% 0%,
-    42% 50%, 49% 100%, 56% 50%, 63% 0%, 70% 50%,
-    77% 100%, 84% 50%, 91% 0%, 100% 50%
-  );
-  opacity: 0.15;
-  animation: float 8s ease-in-out infinite;
+  bottom: 4vh;
+  left: 50%;
+  translate: -50% 0;
+  z-index: 2;
 }
 
-.skills-categories {
+/* ---------------- spec sheet ---------------- */
+.spec {
+  padding-top: clamp(40px, 6vw, 80px);
+}
+
+.spec-grid {
+  columns: 3 300px;
+  column-gap: clamp(24px, 3vw, 48px);
+}
+
+.spec-block {
+  break-inside: avoid;
+  margin-bottom: clamp(28px, 3vw, 44px);
+  padding-top: 18px;
+  border-top: 2px solid var(--text);
+}
+
+.spec-head {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.spec-index,
+.spec-count {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.1em;
+  color: var(--text-3);
+}
+
+.spec-count {
+  color: var(--cat);
+}
+
+.spec-title {
+  font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+.spec-list {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+}
+
+.spec-item {
   position: relative;
-  z-index: 1;
-}
-
-.skill-category-header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-.skill-category-dot {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  border: 2px solid var(--border-color);
-  flex-shrink: 0;
-}
-
-.skill-category-title {
-  font-family: var(--font-heading);
-  font-weight: 800;
-  font-size: 1.3rem;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: var(--text-primary);
-}
-
-.skill-badges {
-  display: flex;
-  flex-wrap: wrap;
   gap: 14px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 1.02rem;
+  font-weight: 500;
+  overflow: hidden;
+  isolation: isolate;
 }
 
-.skill-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 20px;
-  background: var(--bg-card);
-  border: var(--border-thick);
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-hard-sm);
-  font-family: var(--font-heading);
-  font-weight: 600;
-  font-size: 0.95rem;
-  color: var(--text-primary);
-  transition: all var(--transition-fast);
+/* brand-coloured wash slides in on hover */
+.spec-item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--brand) 16%, transparent), transparent 80%);
+  transform: translateX(-101%);
+  transition: transform 0.6s var(--ease-out);
 }
 
-.skill-badge:hover {
-  box-shadow: var(--shadow-hard);
+.spec-item:hover::before {
+  transform: none;
 }
 
-.skill-badge-icon {
-  font-size: 1.4rem;
-  flex-shrink: 0;
+.spec-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--brand) 14%, transparent);
+  color: var(--brand);
+  font-size: 1rem;
+  transition: transform 0.6s var(--ease-out);
 }
 
-.skill-badge-name {
-  white-space: nowrap;
+.spec-name {
+  transition: translate 0.6s var(--ease-out);
 }
 
-@media (max-width: 768px) {
-  .skill-badges {
-    gap: 10px;
+.spec-item:hover .spec-icon {
+  transform: rotate(-10deg) scale(1.12);
+}
+
+.spec-item:hover .spec-name {
+  translate: 6px 0;
+}
+
+.spec-text {
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+
+@media (max-width: 767px) {
+  .drift-track {
+    height: 240vh;
   }
 
-  .skill-badge {
-    padding: 10px 16px;
-    font-size: 0.85rem;
-  }
-
-  .skill-badge-icon {
-    font-size: 1.1rem;
+  .drift-title-wrap {
+    top: 26%;
   }
 }

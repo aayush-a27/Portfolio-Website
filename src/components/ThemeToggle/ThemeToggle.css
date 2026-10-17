@@ -1,17 +1,57 @@
 .theme-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  place-items: center;
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  border: var(--border-thick);
-  background: var(--color-yellow);
-  color: #1A1A2E;
-  box-shadow: var(--shadow-hard-sm);
-  transition: background 0.2s ease;
+  border: 1px solid var(--line-strong);
+  color: var(--text);
+  transition: border-color var(--dur-med) var(--ease-out), background-color var(--dur-med) var(--ease-out),
+    transform var(--dur-med) var(--ease-out);
 }
 
 .theme-toggle:hover {
-  background: var(--color-orange);
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.theme-toggle:active {
+  transform: scale(0.92);
+}
+
+.theme-toggle svg {
+  transition: transform 0.7s var(--ease-out);
+}
+
+.theme-toggle:hover svg {
+  transform: rotate(40deg);
+}
+
+.tt-core {
+  transform-origin: center;
+  transition: r 0.6s var(--ease-out);
+}
+
+.tt-mask {
+  transition: cx 0.6s var(--ease-out), cy 0.6s var(--ease-out);
+}
+
+.tt-rays {
+  transform-origin: center;
+  transition: transform 0.6s var(--ease-out), opacity 0.4s ease;
+}
+
+/* As before the redesign: dark mode shows the sun (switch to light), light mode the moon. */
+.theme-toggle.is-light .tt-core {
+  r: 8;
+}
+
+.theme-toggle.is-light .tt-mask {
+  cx: 17;
+  cy: 7;
+}
+
+.theme-toggle.is-light .tt-rays {
+  opacity: 0;
+  transform: rotate(-60deg) scale(0.4);
 }

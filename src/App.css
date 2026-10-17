@@ -1,8 +1,4 @@
-/* App Layout */
-.app-enter {
-  animation: fadeIn 0.6s ease forwards;
-}
-
+/* App layout: content layers sit above the fixed atmosphere. */
 main {
   position: relative;
   z-index: 1;

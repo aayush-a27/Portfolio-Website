@@ -1,0 +1,230 @@
+.work-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2.2fr) minmax(260px, 1fr);
+  gap: clamp(28px, 4vw, 72px);
+  align-items: start;
+}
+
+/* ---- stage ---- */
+.work-stage {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+
+.work-stage-img {
+  aspect-ratio: 4 / 3;
+  width: 100%;
+}
+
+.work-caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px 32px;
+  margin-top: 24px;
+}
+
+.work-caption-text {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.work-title {
+  font-size: clamp(2rem, 4.6vw, 4.2rem);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+}
+
+.work-title-char {
+  display: inline-block;
+  animation: work-char-in 0.9s var(--ease-out) both;
+  animation-delay: calc(var(--ci) * 28ms + 0.15s);
+}
+
+@keyframes work-char-in {
+  from {
+    transform: translateY(110%) rotate(8deg);
+  }
+  to {
+    transform: none;
+  }
+}
+
+.work-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.work-arrow {
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  font-size: 1.1rem;
+  transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease, transform 0.5s var(--ease-out);
+}
+
+.work-arrow:hover {
+  background: var(--text);
+  color: var(--bg);
+  border-color: var(--text);
+}
+
+.work-arrow:active {
+  transform: scale(0.9);
+}
+
+.work-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 50px;
+  padding: 0 20px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line-strong);
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease;
+}
+
+.work-toggle:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.work-toggle.is-on {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+/* ---- index ---- */
+.work-index-wrap {
+  position: relative;
+}
+
+.work-index {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--line);
+}
+
+.work-index-item {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 18px 4px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  color: var(--text-3);
+  transition: color 0.35s ease, padding-left 0.6s var(--ease-out);
+}
+
+.work-index-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.8s var(--ease-out);
+}
+
+.work-index-item:hover,
+.work-index-item.is-active {
+  color: var(--text);
+  padding-left: 14px;
+}
+
+.work-index-item.is-active::before {
+  transform: scaleX(1);
+}
+
+.work-index-num {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+}
+
+.work-index-title {
+  font-size: clamp(1.2rem, 1.9vw, 1.7rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.work-index-item.is-active .work-index-title {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--accent);
+}
+
+.work-index-badge {
+  margin-left: auto;
+  align-self: center;
+  color: var(--accent);
+}
+
+/* floating preview over the index */
+.work-preview {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 180px;
+  aspect-ratio: 1;
+  margin: -90px 0 0 -210px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  scale: 0.7;
+  rotate: -6deg;
+  box-shadow: var(--shadow-soft);
+  transition: opacity 0.35s ease, scale 0.5s var(--ease-out), rotate 0.6s var(--ease-out);
+  z-index: 2;
+}
+
+.work-preview.is-visible {
+  opacity: 1;
+  scale: 1;
+  rotate: 0deg;
+}
+
+.work-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 899px) {
+  .work-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .work-preview {
+    display: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .work-stage-img {
+    aspect-ratio: 1;
+  }
+}

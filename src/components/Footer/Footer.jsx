@@ -1,54 +1,49 @@
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
-import { FiHeart } from 'react-icons/fi';
+import { useLayoutEffect, useRef } from 'react';
+import { FiArrowUp, FiHeart } from 'react-icons/fi';
+import { footer } from '../../data/portfolio';
+import { gsap, prefersReducedMotion } from '../../lib/motion';
+import { scrollToTarget } from '../../lib/smoothScroll';
 import './Footer.css';
 
 const Footer = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-50px' });
+  const footerRef = useRef(null);
+
+  // The three words slide in from alternating sides as the footer arrives.
+  useLayoutEffect(() => {
+    if (prefersReducedMotion()) return;
+    const ctx = gsap.context(() => {
+      gsap.utils.toArray('.quote-word', footerRef.current).forEach((word, i) => {
+        gsap.fromTo(word, { xPercent: i % 2 ? 18 : -18 }, {
+          xPercent: 0,
+          ease: 'none',
+          scrollTrigger: { trigger: footerRef.current, start: 'top bottom', end: 'top 30%', scrub: 0.8 },
+        });
+      });
+    }, footerRef);
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <footer className="footer" ref={ref}>
-      {/* Zigzag divider */}
-      <div className="footer-divider" />
+    <footer ref={footerRef} className="footer">
+      <p className="footer-quote">
+        <span className="sr-only">{footer.quote.join(' ')}</span>
+        {footer.quote.map((word, i) => (
+          <span key={word} className={`quote-word quote-word-${i + 1}`} aria-hidden="true">
+            {word}
+          </span>
+        ))}
+      </p>
 
-      <div className="container footer-container">
-        {/* Decorative shapes */}
-        <div className="footer-shapes" aria-hidden="true">
-          <div className="footer-circle-1" />
-          <div className="footer-circle-2" />
-          <div className="footer-triangle" />
-        </div>
-
-        <motion.div
-          className="footer-quote"
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-        >
-          <span className="quote-word quote-code">Code.</span>
-          <span className="quote-word quote-create">Create.</span>
-          <span className="quote-word quote-innovate">Innovate.</span>
-        </motion.div>
-
-        <motion.div
-          className="footer-bottom"
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.4 }}
-        >
-          <p className="footer-copyright">
-            &copy; {new Date().getFullYear()} Aayush Bhadula. Made with{' '}
-            <motion.span
-              className="footer-heart"
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ repeat: Infinity, duration: 1.5 }}
-            >
-              <FiHeart />
-            </motion.span>{' '}
-            and lots of ☕
-          </p>
-        </motion.div>
+      <div className="footer-bottom">
+        <p className="footer-copyright">
+          &copy; {new Date().getFullYear()} {footer.name}. {footer.madeWith}{' '}
+          <span className="footer-heart" aria-hidden="true"><FiHeart /></span>{' '}
+          {footer.andLotsOf}
+        </p>
+        <button type="button" className="footer-top" onClick={() => scrollToTarget('#home')}>
+          <span>Back to top</span>
+          <FiArrowUp aria-hidden="true" />
+        </button>
       </div>
     </footer>
   );

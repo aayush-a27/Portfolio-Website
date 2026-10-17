@@ -1,207 +1,173 @@
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
-import { FiExternalLink, FiGithub, FiStar } from 'react-icons/fi';
+import { useLayoutEffect, useRef } from 'react';
+import { FiArrowUpRight, FiGithub, FiStar } from 'react-icons/fi';
+import SectionHeading from '../SectionHeading/SectionHeading';
+import SplitText from '../SplitText/SplitText';
+import Magnetic from '../Magnetic/Magnetic';
+import LiquidImage from '../LiquidImage/LiquidImage';
+import { moreProjects, projectLabels, projects, projectsTitle } from '../../data/portfolio';
+import { gsap, prefersReducedMotion } from '../../lib/motion';
 import './Projects.css';
 
-const projects = [
-  {
-    title: 'AI Resume Builder',
-    category: 'Full Stack Web Application',
-    description:
-      'AI Resume Builder is a modern full-stack web application that enables users to create professional and ATS-friendly resumes with ease. Users can manage personal information, education, experience, skills, and projects through an intuitive interface while previewing changes in real time.',
-    features: [
-      'AI-powered professional summary generation using Google Gemini',
-      'Create and manage multiple resume sections',
-      'Real-time resume preview',
-      'Multiple professional resume templates',
-      'Export resumes as ATS-friendly PDFs',
-      'Dark and Light theme support',
-      'Responsive design across all devices',
-      'Local storage support',
-    ],
-    techStack: {
-      Frontend: ['React', 'Vite', 'Tailwind CSS', 'Context API', 'React Hook Form'],
-      Backend: ['Node.js', 'Express.js', 'MongoDB'],
-      AI: ['Google Gemini API'],
-      Deployment: ['Vercel'],
-    },
-    liveDemo: 'https://ai-resume-builder-sigma-one.vercel.app',
-    github: 'https://github.com/aayush-a27/AI-Resume-Builder',
-  },
-  {
-    title: 'B2B Commodity Trading & Logistics Platform',
-    category: 'Full Stack Web Application',
-    description:
-      'Architected and developed a scalable B2B commodity trading and logistics platform using the MERN stack. Designed and implemented modular RESTful APIs to manage supply chain entities such as freight pricing, ports, and incoterms.',
-    features: [
-      'Built a responsive admin dashboard using React, Tailwind CSS, and modern UI libraries',
-      'Implemented bulk data ingestion (CSV/Excel) using Node.js streams with Papaparse and ExcelJS',
-      'Optimized performance using React Query, Redux Toolkit, and Redis caching',
-      'Secured system with JWT-based RBAC'
-    ],
-    techStack: {
-      Frontend: ['React.js', 'Tailwind CSS', 'React Query', 'Redux'],
-      Backend: ['Node.js', 'Express.js', 'MongoDB', 'Redis'],
-    },
-  }
-];
-
-const techColors = {
-  React: 'var(--color-cyan)',
-  Vite: 'var(--color-purple)',
-  'Tailwind CSS': 'var(--color-blue)',
-  'Context API': 'var(--color-orange)',
-  'React Hook Form': 'var(--color-pink)',
-  'Node.js': 'var(--color-lime)',
-  'Express.js': 'var(--color-yellow)',
-  MongoDB: 'var(--color-lime)',
-  'Google Gemini API': 'var(--color-blue)',
-  Vercel: 'var(--color-purple)',
-  'React.js': 'var(--color-cyan)',
-  Redis: 'var(--color-orange)',
-  'React Query': 'var(--color-pink)',
-  Redux: 'var(--color-purple)',
+/** Rotating circular seal carrying the existing "FEATURED!" label. */
+const FeaturedSeal = ({ label, id }) => {
+  const text = `${label} · ${label} · ${label} · `;
+  return (
+    <div className="seal">
+      <span className="sr-only">{label}</span>
+      <svg className="seal-ring" viewBox="0 0 120 120" aria-hidden="true">
+        <defs>
+          <path id={id} d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0" />
+        </defs>
+        <text>
+          <textPath href={`#${id}`} textLength="289">{text}</textPath>
+        </text>
+      </svg>
+      <FiStar className="seal-star" aria-hidden="true" />
+    </div>
+  );
 };
 
 const Projects = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const sectionRef = useRef(null);
+
+  // Each chapter settles forward from a slightly receded state as it enters.
+  useLayoutEffect(() => {
+    if (prefersReducedMotion()) return;
+    const ctx = gsap.context(() => {
+      gsap.utils.toArray('.project', sectionRef.current).forEach((el) => {
+        gsap.fromTo(el, { scale: 0.92, '--project-radius': '48px' }, {
+          scale: 1,
+          '--project-radius': '24px',
+          ease: 'none',
+          scrollTrigger: { trigger: el, start: 'top bottom', end: 'top 35%', scrub: 0.6 },
+        });
+      });
+    }, sectionRef);
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <section id="projects" className="projects section">
-      <div className="halftone-overlay" />
-      <div className="container" ref={ref}>
-        <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          animate={isInView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.5 }}
-        >
-          <h2 className="section-title">
-            My <span style={{ color: 'var(--color-purple)' }}>Projects</span>
-          </h2>
-        </motion.div>
+    <section ref={sectionRef} id="projects" className="section projects" aria-labelledby="projects-title">
+      <div className="container">
+        <SectionHeading index="04" label="Projects" title={projectsTitle} id="projects-title" />
 
-        <div className="projects-list" style={{ display: 'flex', flexDirection: 'column', gap: '60px' }}>
+        <div className="projects-list">
           {projects.map((project, index) => (
-            <motion.div
-              key={index}
-              className="featured-project"
-              initial={{ opacity: 0, y: 60 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.3 + index * 0.2, duration: 0.7 }}
-            >
-              {/* Decorative shapes */}
-              <div className="project-shapes" aria-hidden="true">
-                <div className="proj-shape-circle-1" />
-                <div className="proj-shape-circle-2" />
-                <div className="proj-shape-triangle" />
-                <div className="proj-shape-dots" />
-                <div className="proj-shape-square" />
+            <article key={project.title} className="project">
+              <span className="project-ghost" aria-hidden="true" data-speed="0.8">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+
+              <div className="project-top">
+                <div className="project-tags">
+                  <span className="project-category">{project.category}</span>
+                  {project.status && <span className="project-status">{project.status}</span>}
+                </div>
+                <FeaturedSeal label={projectLabels.featured} id={`seal-path-${index}`} />
               </div>
 
-              {/* Featured sticker */}
-              <motion.div
-                className="featured-sticker"
-                initial={{ rotate: -20, scale: 0 }}
-                animate={isInView ? { rotate: -12, scale: 1 } : {}}
-                transition={{ delay: 0.8 + index * 0.2, type: 'spring', stiffness: 200 }}
-                whileHover={{ scale: 1.1, rotate: 0 }}
-              >
-                <FiStar /> FEATURED!
-              </motion.div>
+              <h3 className="project-title" data-reveal="words">
+                <SplitText text={project.title} by="words" />
+              </h3>
 
-              <div className="project-content">
-                {/* Category badge */}
-                <motion.span
-                  className="project-category"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                  transition={{ delay: 0.5 + index * 0.2 }}
-                >
-                  {project.category}
-                </motion.span>
+              {project.preview && (
+                <LiquidImage
+                  src={project.preview}
+                  alt={project.title}
+                  className="project-preview"
+                  data-reveal="clip"
+                  data-cursor={project.liveDemo ? 'view' : undefined}
+                  data-cursor-label="View"
+                />
+              )}
 
-                <h3 className="project-title">{project.title}</h3>
-                <p className="project-description">{project.description}</p>
-
-                {/* Features list */}
-                <div className="project-features">
-                  <h4 className="project-features-title">✨ Key Features</h4>
-                  <ul className="project-features-list">
-                    {project.features.map((feature, fIndex) => (
-                      <motion.li
-                        key={fIndex}
-                        className="project-feature-item"
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={isInView ? { opacity: 1, x: 0 } : {}}
-                        transition={{ delay: 0.7 + fIndex * 0.08 + index * 0.2 }}
-                      >
-                        <span className="feature-check">▸</span>
-                        {feature}
-                      </motion.li>
-                    ))}
-                  </ul>
+              <div className="project-body">
+                <div className="project-aside">
+                  <p className="project-description">{project.description}</p>
+                  {(project.liveDemo || project.github) && (
+                    <div className="project-actions">
+                      {project.liveDemo && (
+                        <Magnetic>
+                          <a href={project.liveDemo} className="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                            <span data-magnetic-inner>{projectLabels.liveDemo}</span>
+                            <FiArrowUpRight aria-hidden="true" />
+                          </a>
+                        </Magnetic>
+                      )}
+                      {project.github && (
+                        <Magnetic>
+                          <a href={project.github} className="btn btn-ghost" target="_blank" rel="noopener noreferrer">
+                            <FiGithub aria-hidden="true" />
+                            <span data-magnetic-inner>{projectLabels.github}</span>
+                          </a>
+                        </Magnetic>
+                      )}
+                    </div>
+                  )}
                 </div>
 
-                {/* Tech Stack */}
-                <div className="project-tech">
-                  <h4 className="project-tech-title">🛠️ Tech Stack</h4>
-                  <div className="tech-groups">
-                    {Object.entries(project.techStack).map(([group, techs]) => (
-                      <div key={group} className="tech-group">
-                        <span className="tech-group-label">{group}:</span>
-                        <div className="tech-pills">
-                          {techs.map((tech) => (
-                            <motion.span
-                              key={tech}
-                              className="tech-pill"
-                              style={{
-                                background: techColors[tech] || 'var(--color-cyan)',
-                                color: '#1A1A2E',
-                              }}
-                              whileHover={{ scale: 1.1, y: -3 }}
-                            >
-                              {tech}
-                            </motion.span>
-                          ))}
+                <div className="project-details">
+                  <div className="project-block">
+                    <h4 className="project-block-title">{projectLabels.features}</h4>
+                    <ul className="project-features" data-reveal="stagger">
+                      {project.features.map((feature) => (
+                        <li key={feature} className="project-feature">
+                          <span className="feature-check" aria-hidden="true">▸</span>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="project-block">
+                    <h4 className="project-block-title">{projectLabels.techStack}</h4>
+                    <dl className="tech-groups">
+                      {Object.entries(project.techStack).map(([group, techs]) => (
+                        <div key={group} className="tech-group">
+                          <dt className="tech-group-label">{group}:</dt>
+                          <dd>
+                            <ul className="tech-pills">
+                              {techs.map((tech) => (
+                                <li key={tech} className="tech-pill">{tech}</li>
+                              ))}
+                            </ul>
+                          </dd>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </dl>
                   </div>
                 </div>
-
-                {/* Action buttons */}
-                {(project.liveDemo || project.github) && (
-                  <div className="project-actions">
-                    {project.liveDemo && (
-                      <motion.a
-                        href={project.liveDemo}
-                        className="memphis-btn memphis-btn-primary"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <FiExternalLink /> Live Demo
-                      </motion.a>
-                    )}
-                    {project.github && (
-                      <motion.a
-                        href={project.github}
-                        className="memphis-btn memphis-btn-secondary"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <FiGithub /> GitHub
-                      </motion.a>
-                    )}
-                  </div>
-                )}
               </div>
-            </motion.div>
+            </article>
           ))}
+        </div>
+
+        <div className="more">
+          <h3 className="more-title" data-reveal="fade">{projectLabels.more}</h3>
+          <ul className="more-grid" data-reveal="stagger">
+            {moreProjects.map((p, i) => (
+              <li key={p.title} className="more-item">
+                <div className="more-head">
+                  <span className="label">{String(projects.length + i + 1).padStart(2, '0')}</span>
+                  <div className="more-links">
+                    {p.liveDemo && (
+                      <a href={p.liveDemo} target="_blank" rel="noopener noreferrer" aria-label={`${p.title} — ${projectLabels.liveDemo}`} data-cursor="view" data-cursor-label="Live">
+                        <FiArrowUpRight aria-hidden="true" />
+                      </a>
+                    )}
+                    <a href={p.github} target="_blank" rel="noopener noreferrer" aria-label={`${p.title} — ${projectLabels.github}`}>
+                      <FiGithub aria-hidden="true" />
+                    </a>
+                  </div>
+                </div>
+                <h4 className="more-name">{p.title}</h4>
+                <p className="more-desc">{p.description}</p>
+                <ul className="more-tags">
+                  {p.tags.map((t) => <li key={t}>{t}</li>)}
+                </ul>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>

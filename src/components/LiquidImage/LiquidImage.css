@@ -1,0 +1,53 @@
+.liquid {
+  --liquid-bg: var(--stage);
+  position: relative;
+  overflow: hidden;
+  background: var(--stage);
+  isolation: isolate;
+}
+
+.liquid-img,
+.liquid-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.liquid-img {
+  object-fit: cover;
+  user-select: none;
+}
+
+.liquid-canvas {
+  --liquid-bg: var(--stage);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.liquid.is-gl .liquid-canvas {
+  opacity: 1;
+}
+
+/* ---- Fallbacks (no WebGL) ---- */
+.liquid:not(.is-gl) .liquid-img {
+  transition: transform 1.2s var(--ease-out);
+}
+
+.liquid:not(.is-gl):hover .liquid-img {
+  transform: scale(1.04);
+}
+
+.liquid-reveal-fallback {
+  clip-path: circle(0% at var(--ox, 50%) var(--oy, 50%));
+  transition: clip-path 1.1s var(--ease-in-out), transform 1.2s var(--ease-out) !important;
+}
+
+.liquid.is-revealed .liquid-reveal-fallback {
+  clip-path: circle(150% at var(--ox, 50%) var(--oy, 50%));
+}
+
+.liquid-overlay {
+  clip-path: circle(0% at 50% 50%);
+}

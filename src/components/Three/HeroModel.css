@@ -1,0 +1,50 @@
+.hero-model {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-model-canvas {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+.hero-model.is-ready .hero-model-canvas {
+  opacity: 1;
+}
+
+/* the browser never scrolls or selects while a drag on the blade is in progress */
+.hero-model-canvas.is-grabbing {
+  touch-action: none;
+  user-select: none;
+}
+
+.hero-model-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: calc(var(--nav-h) + 4vh) var(--gutter) 10vh;
+  pointer-events: none;
+}
+
+.hero-model-poster {
+  pointer-events: auto;
+  width: min(46vw, 720px);
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+  opacity: 0.9;
+}
+
+@media (max-width: 767px) {
+  .hero-model-fallback {
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .hero-model-poster {
+    width: 100%;
+    opacity: 0.55;
+  }
+}

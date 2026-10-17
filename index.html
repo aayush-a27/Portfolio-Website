@@ -7,14 +7,23 @@
     <meta name="description" content="Aayush Bhadula — Full Stack Developer crafting scalable, modern, and user-centric web experiences. Portfolio showcasing projects, skills, and experience." />
     <meta name="keywords" content="Aayush Bhadula, Full Stack Developer, Portfolio, React, Node.js, Web Developer" />
     <meta name="author" content="Aayush Bhadula" />
+    <meta name="color-scheme" content="dark light" />
+    <!-- Apply the saved theme before first paint to avoid a flash of the wrong theme. -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('portfolio-theme');
+          document.documentElement.setAttribute('data-theme', t === 'light' || t === 'dark' ? t : 'dark');
+        } catch (e) {}
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <title>Aayush Bhadula Portfolio</title>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
-
-
+</html>

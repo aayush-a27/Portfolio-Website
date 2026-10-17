@@ -1,30 +1,37 @@
-import { motion } from 'framer-motion';
-import { FiSun, FiMoon } from 'react-icons/fi';
+import { useTheme } from '../../context/contexts';
 import './ThemeToggle.css';
 
-const ThemeToggle = ({ theme, toggleTheme }) => {
+/** Sun ⇄ moon morph: the mask circle slides in to carve the crescent. */
+const ThemeToggle = () => {
+  const { theme, toggleTheme } = useTheme();
+  const isDark = theme === 'dark';
+
   return (
-    <motion.button
-      className="theme-toggle"
+    <button
+      type="button"
+      className={`theme-toggle ${isDark ? 'is-dark' : 'is-light'}`}
       onClick={toggleTheme}
-      whileHover={{ scale: 1.1, rotate: 15 }}
-      whileTap={{ scale: 0.9 }}
-      aria-label="Toggle theme"
+      aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
+      title={isDark ? 'Light mode' : 'Dark mode'}
     >
-      <motion.div
-        key={theme}
-        initial={{ rotate: -90, opacity: 0 }}
-        animate={{ rotate: 0, opacity: 1 }}
-        exit={{ rotate: 90, opacity: 0 }}
-        transition={{ duration: 0.3 }}
-      >
-        {theme === 'dark' ? (
-          <FiSun size={20} />
-        ) : (
-          <FiMoon size={20} />
-        )}
-      </motion.div>
-    </motion.button>
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+        <mask id="theme-toggle-mask">
+          <rect width="24" height="24" fill="#fff" />
+          <circle className="tt-mask" cx="24" cy="4" r="7" fill="#000" />
+        </mask>
+        <circle className="tt-core" cx="12" cy="12" r="5" mask="url(#theme-toggle-mask)" fill="currentColor" />
+        <g className="tt-rays" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+          <line x1="12" y1="1.5" x2="12" y2="3.5" />
+          <line x1="12" y1="20.5" x2="12" y2="22.5" />
+          <line x1="1.5" y1="12" x2="3.5" y2="12" />
+          <line x1="20.5" y1="12" x2="22.5" y2="12" />
+          <line x1="4.6" y1="4.6" x2="6" y2="6" />
+          <line x1="18" y1="18" x2="19.4" y2="19.4" />
+          <line x1="4.6" y1="19.4" x2="6" y2="18" />
+          <line x1="18" y1="6" x2="19.4" y2="4.6" />
+        </g>
+      </svg>
+    </button>
   );
 };
 

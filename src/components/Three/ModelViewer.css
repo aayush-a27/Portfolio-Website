@@ -1,0 +1,129 @@
+.viewer {
+  --ui: 239, 234, 226;
+  --ui-solid: #efeae2;
+  --ui-ink: #0b0908;
+  position: fixed;
+  inset: 0;
+  z-index: 9200;
+  background: #0b0908;
+  color: var(--ui-solid);
+  overflow: hidden;
+  transition: color 0.6s ease;
+}
+
+/* Light lighting preset → dark interface */
+.viewer[data-tone='light'] {
+  --ui: 22, 19, 15;
+  --ui-solid: #16130f;
+  --ui-ink: #efeae2;
+}
+
+.viewer-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+
+.viewer-top,
+.viewer-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: clamp(16px, 3vw, 36px);
+  pointer-events: none;
+}
+
+.viewer-top > *,
+.viewer-bottom > * {
+  pointer-events: auto;
+}
+
+.viewer-top {
+  top: 0;
+}
+
+.viewer-bottom {
+  bottom: 0;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.viewer .label {
+  color: rgba(var(--ui), 0.6);
+}
+
+.viewer-title {
+  margin-top: 8px;
+  font-size: clamp(2rem, 6vw, 4.5rem);
+  letter-spacing: -0.045em;
+}
+
+.viewer-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.viewer-icon-btn {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--ui), 0.3);
+  color: inherit;
+  font-size: 1.2rem;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: background-color 0.3s ease, transform 0.4s var(--ease-out);
+}
+
+.viewer-icon-btn:hover {
+  background: rgba(var(--ui), 0.14);
+  transform: rotate(90deg);
+}
+
+.viewer-presets {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(var(--ui), 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.viewer-preset {
+  padding: 10px 18px;
+  border-radius: var(--radius-pill);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgba(var(--ui), 0.7);
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+.viewer-preset:hover {
+  color: var(--ui-solid);
+}
+
+.viewer-preset.is-active {
+  background: var(--ui-solid);
+  color: var(--ui-ink);
+}
+
+.viewer-status {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
