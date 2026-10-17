@@ -267,7 +267,7 @@ export const projectLabels = {
  */
 export const projects = [
   {
-    title: 'PDF Chat AI',
+    title: 'Green Book AI',
     category: 'AI · Full Stack Web Application',
     status: 'In Progress',
     description:
@@ -282,6 +282,7 @@ export const projects = [
       Data: ['PostgreSQL', 'pgvector', 'Redis'],
       AI: ['Gemini', 'Groq'],
     },
+    liveDemo: 'https://greenbookai.pages.dev',
     github: 'https://github.com/aayush-a27/FullstackLearning--React-and-FastApi',
   },
   {
@@ -346,7 +347,7 @@ export const moreProjects = [
     description:
       'Invite-only weather alert service: an admin dashboard approves users, who then receive scheduled, city-specific weather alerts on Telegram.',
     tags: ['React', 'NestJS', 'OAuth', 'Telegram Bot', 'OpenWeatherMap'],
-    liveDemo: 'https://weather-guard-admin.vercel.app',
+    // liveDemo: 'https://weather-guard-admin.vercel.app',
     github: 'https://github.com/aayush-a27/WeatherGuard-Admin',
   },
   {
@@ -354,7 +355,7 @@ export const moreProjects = [
     description:
       'Real-time social chat app with group chats, voice and video calling, friend requests, a post feed and notifications.',
     tags: ['React', 'Node.js', 'MongoDB', 'Stream Chat', 'Socket.io'],
-    liveDemo: 'https://linkee-chat-app-with-video-calling.vercel.app',
+    // liveDemo: 'https://linkee-chat-app-with-video-calling.vercel.app',
     github: 'https://github.com/aayush-a27/LINKEE-ChatApp-With-Video-Calling-Feature-',
   },
   {
@@ -362,7 +363,7 @@ export const moreProjects = [
     description:
       'URL shortener with custom codes, click tracking and per-link statistics in a link management dashboard.',
     tags: ['React', 'Express.js', 'MongoDB', 'Tailwind CSS'],
-    liveDemo: 'https://tiny-link-web-app.vercel.app',
+    // liveDemo: 'https://tiny-link-web-app.vercel.app',
     github: 'https://github.com/aayush-a27/TinyLink_web_app',
   },
   {
