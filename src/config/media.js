@@ -70,23 +70,23 @@ export const work3d = [
     image: streetLamp,
     iteration: streetLamp2,
   },
-  {
-    id: 'telephone-booth',
-    title: 'Telephone Booth',
-    image: telephone,
-    iteration: telephoneBooth,
-  },
+  // {
+  //   id: 'telephone-booth',
+  //   title: 'Telephone Booth',
+  //   image: telephone,
+  //   iteration: telephoneBooth,
+  // },
   {
     id: 'monster-can',
     title: 'Monster Can',
     image: monsterGreen,
     iteration: monsterOrange,
   },
-  {
-    id: 'sword',
-    title: 'Sword',
-    image: swordFog,
-  },
+  // {
+  //   id: 'sword',
+  //   title: 'Sword',
+  //   image: swordFog,
+  // },
   {
     id: 'bird',
     title: 'Bird',
