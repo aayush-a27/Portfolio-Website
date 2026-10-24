@@ -413,7 +413,7 @@ export const socialLinks = [
   {
     icon: FiInstagram,
     label: 'Instagram',
-    href: 'https://www.instagram.com/aayush.developer/',
+    href: 'https://www.instagram.com/aayush_bhadula/',
     color: 'var(--color-pink)',
     shape: 'square',
   },
